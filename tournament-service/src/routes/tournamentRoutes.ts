@@ -1,8 +1,9 @@
 import { Router } from "express";
 import TournamentController from "../controllers/TournamentController";
 
-const userRouter = Router();
+const tournamentRouter = Router();
 
-userRouter.post("/watch", TournamentController.login);
+tournamentRouter.get("/start-match", TournamentController.startMatch);
+tournamentRouter.post("/get-challenge-outcome", TournamentController.getChallengeOutcome);
 
-export default userRouter;
+export default tournamentRouter;

@@ -6,6 +6,7 @@ import Match, { IMatch } from "./models/Match";
 import Team, { ITeam } from "./models/Team";
 import ShotTiming, { IShotTiming } from "./models/ShotTiming";
 import CommentaryMaster, { ICommentaryMaster } from "./models/CommentaryMaster";
+import Commentary, { ICommentary } from "./models/Commentary";
 import { connectDB } from "./connection";
 
 export {
@@ -25,5 +26,7 @@ export {
     IShotTiming,
     CommentaryMaster,
     ICommentaryMaster,
+    Commentary,
+    ICommentary,
     connectDB
 };

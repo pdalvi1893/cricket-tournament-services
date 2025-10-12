@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Modal,
   ModalHeader,
@@ -7,6 +7,7 @@ import {
   Button,
   Input,
   Label,
+  Select,
 } from '@roketid/windmill-react-ui';
 
 interface FooterButton {
@@ -16,11 +17,17 @@ interface FooterButton {
   fullWidth?: boolean;
 }
 
+interface DropdownField {
+  field: string;
+  items: { id: string; value: string }[];
+}
+
 interface GenericModalProps {
   isOpen: boolean;
   onClose: () => void;
   header: React.ReactNode;
   formFields?: string[];
+  dropdownFields?: DropdownField[];
   onSubmit?: (formData: Record<string, string>) => void;
   footerButtons?: FooterButton[];
 }
@@ -30,42 +37,43 @@ const GenericFormModal: React.FC<GenericModalProps> = ({
   onClose,
   header,
   formFields = [],
+  dropdownFields = [],
   onSubmit,
   footerButtons,
 }) => {
   const [formData, setFormData] = useState<Record<string, string>>({});
 
-  // Initialize empty form values when formFields change
-  React.useEffect(() => {
-    const initialData = formFields.reduce(
-      (acc, field) => ({ ...acc, [field]: '' }),
-      {}
-    );
+  // Initialize empty form values when formFields or dropdownFields change
+  useEffect(() => {
+    const initialData = {
+      ...formFields.reduce((acc, field) => ({ ...acc, [field]: '' }), {}),
+      ...dropdownFields.reduce((acc, field) => ({ ...acc, [field.field]: '' }), {}),
+    };
     setFormData(initialData);
-  }, [formFields]);
+  }, [formFields, dropdownFields]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = () => {
-    if (onSubmit) {
-      onSubmit(formData);
-    }
+    if (onSubmit) onSubmit(formData);
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalHeader>{header}</ModalHeader>
+
       <ModalBody>
-        {formFields.length > 0 ? (
+        {formFields.length > 0 || dropdownFields.length > 0 ? (
           <form
             onSubmit={(e) => {
               e.preventDefault();
               handleSubmit();
             }}
           >
+            {/* Text Inputs */}
             {formFields.map((field, idx) => (
               <Label key={idx} className="block mt-3">
                 <span className="capitalize">{field}</span>
@@ -78,6 +86,27 @@ const GenericFormModal: React.FC<GenericModalProps> = ({
                   placeholder={`Enter ${field}`}
                   required
                 />
+              </Label>
+            ))}
+
+            {/* Dropdown Fields */}
+            {dropdownFields.map((dropdown, idx) => (
+              <Label key={idx} className="block mt-3">
+                <span className="capitalize">{dropdown.field}</span>
+                <Select
+                  className="mt-1"
+                  name={dropdown.field}
+                  value={formData[dropdown.field] || ''}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select {dropdown.field}</option>
+                  {dropdown.items.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.value}
+                    </option>
+                  ))}
+                </Select>
               </Label>
             ))}
           </form>

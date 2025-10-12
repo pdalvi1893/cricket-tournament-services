@@ -15,20 +15,35 @@ import {
   Button,
   Pagination,
 } from '@roketid/windmill-react-ui'
-import { EditIcon, TrashIcon } from 'icons'
 
 import { api } from '../../utils/api'
 import { API_ENDPOINTS } from '../../constants/api'
 
 function Tables() {
-  const [teams, setTeams] = useState<{ _id: string; name: string; order: string; team: any; }[]>([])
+  const [teams, setTeams] = useState<{ _id: string; name: string; order: string; team: any }[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [page, setPage] = useState(1)
+  const [dropdownFields, setDropdownFields] = useState<any[]>([])
+  const [match, setMatch] = useState<{ _id: string; name: string } | null>(null)
   const resultsPerPage = 10
+
+  const startMatch = async () => {
+    try {
+      const res = await api(API_ENDPOINTS.START_MATCH, { method: 'GET' });
+      console.log(res.data);
+      if (res?.status === 200 && res.data) {
+        setMatch(res.data); // store match details, e.g., { _id, name }
+      } else {
+        console.error('Unexpected response when starting match:', res);
+      }
+    } catch (error) {
+      console.error('Failed to start match:', error);
+    }
+  };
 
   const fetchTeams = async () => {
     try {
-      const res = await api(API_ENDPOINTS.PLAYERS, { method: 'GET' });
+      const res = await api(API_ENDPOINTS.PLAYERS, { method: 'GET' })
       if (res?.status === 200 && Array.isArray(res.data)) {
         setTeams(res.data)
       } else {
@@ -39,12 +54,71 @@ function Tables() {
     }
   }
 
+  const fetchDropdowns = async () => {
+    try {
+      const [bowlingCards, battingCards, shotTimings] = await Promise.all([
+        api(`${API_ENDPOINTS.LOOKUPS}?type=bowling-cards`, { method: 'GET' }),
+        api(`${API_ENDPOINTS.LOOKUPS}?type=batting-cards`, { method: 'GET' }),
+        api(`${API_ENDPOINTS.LOOKUPS}?type=shot-timing`, { method: 'GET' }),
+      ])
+
+      const bowlingCardItems =
+        bowlingCards?.data?.map((item: any) => ({
+          id: item._id || item.id,
+          value: item.name || item.value || 'Unnamed',
+        })) || []
+
+      const battingCardItems =
+        battingCards?.data?.map((item: any) => ({
+          id: item._id || item.id,
+          value: item.name || item.value || 'Unnamed',
+        })) || []
+
+      const shortTimingItems =
+        shotTimings?.data?.map((item: any) => ({
+          id: item._id || item.id,
+          value: item.name || item.value || 'Unnamed',
+        })) || []
+
+      setDropdownFields([
+        {
+          field: 'Bowling Card',
+          items: bowlingCardItems,
+        },
+        {
+          field: 'Batting Card',
+          items: battingCardItems,
+        },
+        {
+          field: 'Short Timing',
+          items: shortTimingItems,
+        },
+      ])
+    } catch (error) {
+      console.error('Failed to fetch dropdown data:', error)
+      // fallback example (optional)
+      setDropdownFields([
+        {
+          field: 'Shot Timing',
+          items: [
+            { id: '1', value: 'Perfect' },
+            { id: '2', value: 'Late' },
+            { id: '3', value: 'Early' },
+          ],
+        },
+      ])
+    }
+  }
+
   useEffect(() => {
+    startMatch()
     fetchTeams()
+    fetchDropdowns()
   }, [])
 
   const handleFormSubmit = async (data: Record<string, string>) => {
     try {
+      console.log('Submitted form:', data)
       await api(API_ENDPOINTS.ADD_PLAYER, {
         method: 'POST',
         body: data,
@@ -63,18 +137,16 @@ function Tables() {
 
   return (
     <Layout>
-      <PageTitleWithButton
-        buttonText="Add New"
-        onButtonClick={() => setIsModalOpen(true)}
-      >
-        Teams
+      <PageTitleWithButton buttonText="Add New" onButtonClick={() => setIsModalOpen(true)}>
+        Challenge #1  {match ? `🏏 ${match.name}` : 'Starting match...'}
       </PageTitleWithButton>
 
       <GenericFormModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        header="Add New Player"
-        formFields={['name', 'order', 'team']}
+        header="Hit a ball!!!"
+        formFields={[]}
+        dropdownFields={dropdownFields}
         onSubmit={handleFormSubmit}
       />
 
@@ -82,10 +154,7 @@ function Tables() {
         <Table>
           <TableHeader>
             <tr>
-              <TableCell>Player Name</TableCell>
-              <TableCell>Order</TableCell>
-              <TableCell>Team</TableCell>
-              <TableCell>Actions</TableCell>
+              <TableCell>Commentary</TableCell>
             </tr>
           </TableHeader>
           <TableBody>
@@ -93,22 +162,6 @@ function Tables() {
               <TableRow key={team._id}>
                 <TableCell>
                   <span className="text-sm">{team.name}</span>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">{team.order}</span>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm font-semibold">{team?.team?.name}</span>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center space-x-4">
-                    <Button layout="link" size="small" aria-label="Edit">
-                      <EditIcon className="w-5 h-5" aria-hidden="true" />
-                    </Button>
-                    <Button layout="link" size="small" aria-label="Delete">
-                      <TrashIcon className="w-5 h-5" aria-hidden="true" />
-                    </Button>
-                  </div>
                 </TableCell>
               </TableRow>
             ))}

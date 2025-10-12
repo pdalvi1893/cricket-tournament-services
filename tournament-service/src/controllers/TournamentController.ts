@@ -1,22 +1,32 @@
 import express, { Request, Response } from "express";
+import tournamentService from "../services/TournamentService";
 
-const login = async (req: Request, res: Response) => {
+const getChallengeOutcome = async (req: Request, res: Response) => {
     try {
-        // const { email, password } = req.body;
-        // const user = await User.findOne({ email }).select("+password");
-        // if (
-        //     !user ||
-        //     !(await isPasswordMatch(password, user.password as string))
-        // ) {
-        //     throw new ApiError(400, "Incorrect email or password");
-        // }
 
-        // const token = await createSendToken(user!, res);
+        const commentary = await tournamentService.getChallengeOutcome(req.body);
 
         return res.json({
             status: 200,
             message: "User logged in successfully!",
-            token: "",
+            token: commentary,
+        });
+    } catch (error: any) {
+        return res.json({
+            status: 500,
+            message: error.message,
+        });
+    }
+};
+
+const startMatch = async (req: Request, res: Response) => {
+    try {
+        const match = await tournamentService.startMatch();
+
+        return res.json({
+            status: 200,
+            message: "Match started successfully!",
+            data: match,
         });
     } catch (error: any) {
         return res.json({
@@ -27,5 +37,6 @@ const login = async (req: Request, res: Response) => {
 };
 
 export default {
-    login,
+    getChallengeOutcome,
+    startMatch,
 };

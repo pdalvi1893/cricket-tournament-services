@@ -25,12 +25,12 @@ const MatchSchema: Schema = new Schema(
         team: {
             type: Schema.Types.ObjectId,
             ref: "Team", // model name as defined below
-            unique: true,
+            //unique: true,
         },
         opponent: {
             type: Schema.Types.ObjectId,
             ref: "Team", // model name as defined below
-            unique: true,
+            //unique: true,
         },
         value: {
             type: Number,

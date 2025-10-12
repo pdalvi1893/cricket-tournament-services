@@ -7,4 +7,5 @@ export const API_ENDPOINTS = {
   PLAYERS: 'players',
   LOOKUPS: 'lookups',
   LOOKUP_ADD_ITEM: 'add-item',
+  START_MATCH: 'start-match',
 };
