@@ -1,15 +1,24 @@
 import express, { Express, Router } from "express";
 import { Server } from "http";
-// import tournamentRouter from "./routes/tournamentRoutes";
 import { errorConverter, errorHandler } from "./middleware";
 import { connectDB } from "./database";
 import config from "./config/config";
 import routes from "./routes";
+import cors, { CorsOptions } from 'cors';
 
 const app: Express = express();
 let server: Server;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const corsOptions: CorsOptions = {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+};
+app.use(cors(corsOptions));
+
 //app.use(tournamentRouter);
 routes.forEach((route: Router) => app.use(route));
 app.use(errorConverter);

@@ -35,7 +35,7 @@ const CommentaryMasterSchema: Schema = new Schema(
         shot_timing: {
             type: Schema.Types.ObjectId,
             ref: "ShotTiming", // model name as defined below
-            unique: true,
+            //unique: true,
         },
     },
     {

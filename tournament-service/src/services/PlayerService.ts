@@ -1,7 +1,7 @@
 import { Player, IPlayer, Team } from "../database";
 
 const fetchPlayers = async (): Promise<IPlayer[]> => {
-    const users = await Player.find();
+    const users = await Player.find().populate("team");
     return users;
 };
 
