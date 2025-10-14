@@ -47,6 +47,11 @@ function LoginPage() {
 
     try {
       const result = await api(API_ENDPOINTS.LOGIN, { method: 'POST', body: { email: form.email, password: form.password } });
+
+      const token = result?.token;
+      if (token) {
+        localStorage.setItem('access_token', token);
+      }
       //if (!result.ok) throw new Error('Failed to login');
       router.push('/tournament/tables');
     } catch (err: any) {

@@ -26,7 +26,6 @@ function Tables() {
   const [page, setPage] = useState(1)
   const resultsPerPage = 10
 
-  // 🔹 Fetch Teams from API
   const fetchItems = async () => {
     try {
       const res = await api(`${API_ENDPOINTS.LOOKUPS}?type=commentary-master-table`, { method: 'GET' })

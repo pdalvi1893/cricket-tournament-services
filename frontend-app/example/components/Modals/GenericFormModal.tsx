@@ -50,7 +50,8 @@ const GenericFormModal: React.FC<GenericModalProps> = ({
       ...dropdownFields.reduce((acc, field) => ({ ...acc, [field.field]: '' }), {}),
     };
     setFormData(initialData);
-  }, [formFields, dropdownFields]);
+  }, []);
+  //}, [formFields, dropdownFields]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;

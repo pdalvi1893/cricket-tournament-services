@@ -13,6 +13,9 @@ const getChallengeOutcome = async (data: any): Promise<any[]> => {
         case 'CHALLENGE_TWO':
             result = generateOutcomeForChallengeTwo(data);
             break;
+        case 'CHALLENGE_THREE':
+            result = getOutcomeForChallengeThree(data);
+            break;
         default:
             break;
     };
@@ -59,6 +62,44 @@ const generateOutcomeForChallengeOne = async (data: any) => {
 };
 
 const generateOutcomeForChallengeTwo = async (data: any) => {
+    const {
+        match_id,
+        challenge_name,
+        batting_card,
+        bowling_card,
+        shot_timing,
+    } = data;
+
+    const match = await Match.findById(match_id) as IMatch;
+
+    if (match.balls_faced + 1 > 10) return [];
+
+    const runScored: any = getOutcomeFromShotTiming(shot_timing);
+
+    let commentaryList = await CommentaryMaster.find({ shot_timing: shot_timing, }).populate('shot_timing');
+
+    if (runScored.wicket) commentaryList = await CommentaryMaster.find({ is_wicket_template: true, }).populate('shot_timing');
+
+    const template = commentaryList[getRandomNumber(commentaryList.length)];
+
+    await Commentary.create({
+        commentary: `${template.secondary_template} - ${(runScored.wicket ? "Wicket" : `${runScored.run.value} Runs`)}`,
+        match: match_id,
+        batting_card,
+        bowling_card,
+        shot_timing,
+    });
+
+    await Match.findByIdAndUpdate(match_id, {
+        $push: {
+            balls_faced: (match?.balls_faced || 0) + 1,
+        }
+    });
+
+    return [];
+};
+
+const getOutcomeForChallengeThree = async (data: any) => {
     const {
         match_id,
         challenge_name,

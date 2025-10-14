@@ -1,7 +1,7 @@
 // utils/api.ts
 export interface ApiOptions extends RequestInit {
-  body?: any; // Accept objects and stringify automatically
-  token?: string; // Optional auth token
+  body?: any; 
+  token?: string; 
 }
 
 export async function api<T = any>(
@@ -9,12 +9,13 @@ export async function api<T = any>(
   { method = 'GET', body, token, headers = {}, ...options }: ApiOptions = {}
 ): Promise<T> {
   try {
-    const apiUrl = `http://localhost:8082/${url}`;
+    const apiUrl = `http://localhost:8080/${url}`;
+    const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
     const res = await fetch(apiUrl, {
       method,
       headers: {
         'Content-Type': 'application/json',
-        //...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...headers,
       },
       body: body ? JSON.stringify(body) : undefined,

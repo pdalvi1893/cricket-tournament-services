@@ -27,6 +27,10 @@ function Header() {
     setIsProfileMenuOpen(!isProfileMenuOpen)
   }
 
+  function handleLogout() {
+    alert('test 123');
+  }
+
   return (
     <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-800">
       <div className="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
@@ -128,7 +132,7 @@ function Header() {
                 <OutlineCogIcon className="w-4 h-4 mr-3" aria-hidden="true" />
                 <span>Settings</span>
               </DropdownItem>
-              <DropdownItem onClick={() => alert('Log out!')}>
+              <DropdownItem onClick={() => handleLogout}>
                 <OutlineLogoutIcon className="w-4 h-4 mr-3" aria-hidden="true" />
                 <span>Log out</span>
               </DropdownItem>

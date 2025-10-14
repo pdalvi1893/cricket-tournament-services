@@ -24,6 +24,7 @@ function Tables() {
   const [teams, setTeams] = useState<{ _id: string; name: string; order: string; team: any; }[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [page, setPage] = useState(1)
+  const [dropdownFields, setDropdownFields] = useState<any[]>([])
   const resultsPerPage = 10
 
   const fetchTeams = async () => {

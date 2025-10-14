@@ -1,12 +1,13 @@
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import { Player } from "../database";
 import config from "../config/config";
 import { IPlayer } from "../database";
 import { ApiError } from "../utils";
+import { AuthRequest } from "../middleware";
 import lookupService from "../services/LookupService";
 
 
-const fetchItems = async (req: Request, res: Response) => {
+const fetchItems = async (req: AuthRequest, res: Response) => {
     try {
         const items = await lookupService.fetchItems(req.query);
 
@@ -23,7 +24,7 @@ const fetchItems = async (req: Request, res: Response) => {
     }
 };
 
-const addItem = async (req: Request, res: Response) => {
+const addItem = async (req: AuthRequest, res: Response) => {
     try {
         const item = await lookupService.addItem(req.body);
 
