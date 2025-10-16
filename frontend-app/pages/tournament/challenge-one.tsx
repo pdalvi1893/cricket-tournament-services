@@ -20,7 +20,7 @@ import { api } from '../../utils/api'
 import { API_ENDPOINTS } from '../../constants/api'
 
 function Tables() {
-  const [teams, setTeams] = useState<{ _id: string; name: string; order: string; team: any }[]>([])
+  const [teams, setTeams] = useState<{ _id: string; commentary: string; order: string; team: any }[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [page, setPage] = useState(1)
   const [dropdownFields, setDropdownFields] = useState<any[]>([])
@@ -41,18 +41,18 @@ function Tables() {
     }
   };
 
-  const fetchTeams = async () => {
-    try {
-      const res = await api(API_ENDPOINTS.PLAYERS, { method: 'GET' })
-      if (res?.status === 200 && Array.isArray(res.data)) {
-        setTeams(res.data)
-      } else {
-        console.error('Unexpected API response:', res)
-      }
-    } catch (error) {
-      console.error('Failed to fetch teams:', error)
-    }
-  }
+  // const fetchTeams = async () => {
+  //   try {
+  //     const res = await api(API_ENDPOINTS.PLAYERS, { method: 'GET' })
+  //     if (res?.status === 200 && Array.isArray(res.data)) {
+  //       setTeams(res.data)
+  //     } else {
+  //       console.error('Unexpected API response:', res)
+  //     }
+  //   } catch (error) {
+  //     console.error('Failed to fetch teams:', error)
+  //   }
+  // }
 
   const fetchDropdowns = async () => {
     try {
@@ -82,15 +82,15 @@ function Tables() {
 
       setDropdownFields([
         {
-          field: 'Bowling Card',
+          field: 'bowling_card',
           items: bowlingCardItems,
         },
         {
-          field: 'Batting Card',
+          field: 'batting_card',
           items: battingCardItems,
         },
         {
-          field: 'Short Timing',
+          field: 'shot_timing',
           items: shortTimingItems,
         },
       ])
@@ -112,19 +112,23 @@ function Tables() {
 
   useEffect(() => {
     startMatch()
-    fetchTeams()
+    //fetchTeams()
     fetchDropdowns()
   }, [])
 
   const handleFormSubmit = async (data: Record<string, string>) => {
     try {
-      console.log('Submitted form:', data)
-      await api(API_ENDPOINTS.ADD_PLAYER, {
+      data.type = 'CHALLENGE_ONE';
+      data.match_id = match?._id;
+
+      const res = await api(API_ENDPOINTS.CHALLENGE_OUTCOME, {
         method: 'POST',
         body: data,
       })
+      console.log(res.data)
+      setTeams(res.data)
       setIsModalOpen(false)
-      await fetchTeams()
+      //await fetchTeams()
     } catch (error) {
       console.error('Error adding team:', error)
     }
@@ -161,7 +165,7 @@ function Tables() {
             {paginatedData.map((team) => (
               <TableRow key={team._id}>
                 <TableCell>
-                  <span className="text-sm">{team.name}</span>
+                  <span className="text-sm">{team.commentary}</span>
                 </TableCell>
               </TableRow>
             ))}

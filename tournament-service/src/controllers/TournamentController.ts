@@ -8,8 +8,8 @@ const getChallengeOutcome = async (req: Request, res: Response) => {
 
         return res.json({
             status: 200,
-            message: "User logged in successfully!",
-            token: commentary,
+            message: "Commentary!",
+            data: commentary,
         });
     } catch (error: any) {
         return res.json({

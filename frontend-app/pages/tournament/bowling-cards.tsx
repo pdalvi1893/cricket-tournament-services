@@ -87,7 +87,7 @@ function Tables() {
               <TableCell>Bowling card</TableCell>
               <TableCell>All Shots Applicable</TableCell>
               <TableCell>Batting cards</TableCell>
-              <TableCell>Actions</TableCell>
+              {/* <TableCell>Actions</TableCell> */}
             </tr>
           </TableHeader>
           <TableBody>
@@ -109,7 +109,7 @@ function Tables() {
                     ))}
                   </ul>
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <div className="flex items-center space-x-4">
                     <Button layout="link" size="small" aria-label="Edit">
                       <EditIcon className="w-5 h-5" aria-hidden="true" />
@@ -118,7 +118,7 @@ function Tables() {
                       <TrashIcon className="w-5 h-5" aria-hidden="true" />
                     </Button>
                   </div>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

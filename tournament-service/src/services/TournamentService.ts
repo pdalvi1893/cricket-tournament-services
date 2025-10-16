@@ -1,5 +1,4 @@
-import { BattingCard, BowlingCard, CommentaryMaster, ShotTiming, Run, IRun, Match, IMatch, Commentary } from "../database";
-import { ApiError } from "../utils";
+import { CommentaryMaster, ShotTiming, IRun, Match, IMatch, Commentary } from "../database";
 import { getRandomNumber, replaceTemplateStrings } from "../utils/helper";
 
 const getChallengeOutcome = async (data: any): Promise<any[]> => {
@@ -34,9 +33,9 @@ const generateOutcomeForChallengeOne = async (data: any) => {
 
     const match = await Match.findById(match_id) as IMatch;
 
-    if (match.balls_faced + 1 > 10) return [];
+    if (match.balls_faced + 1 > 10) return await Commentary.find({ match: match_id });
 
-    const runScored: any = getOutcomeFromShotTiming(shot_timing);
+    const runScored = await getOutcomeFromShotTiming(shot_timing);
 
     let templateString =
         runScored.run.value === 1
@@ -53,12 +52,12 @@ const generateOutcomeForChallengeOne = async (data: any) => {
     });
 
     await Match.findByIdAndUpdate(match_id, {
-        $push: {
-            balls_faced: (match?.balls_faced || 0) + 1,
-        }
+        $inc: { balls_faced: 1 }
     });
 
-    return [];
+    const commentary = await Commentary.find({ match: match_id });
+
+    return commentary;
 };
 
 const generateOutcomeForChallengeTwo = async (data: any) => {
@@ -91,9 +90,7 @@ const generateOutcomeForChallengeTwo = async (data: any) => {
     });
 
     await Match.findByIdAndUpdate(match_id, {
-        $push: {
-            balls_faced: (match?.balls_faced || 0) + 1,
-        }
+        $inc: { balls_faced: 1 }
     });
 
     return [];
@@ -129,9 +126,7 @@ const getOutcomeForChallengeThree = async (data: any) => {
     });
 
     await Match.findByIdAndUpdate(match_id, {
-        $push: {
-            balls_faced: (match?.balls_faced || 0) + 1,
-        }
+        $inc: { balls_faced: 1 }
     });
 
     return [];

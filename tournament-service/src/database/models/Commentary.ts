@@ -8,7 +8,7 @@ export interface ICommentary extends Document {
     updatedAt: Date;
 }
 
-const PlayerSchema: Schema = new Schema(
+const CommentarySchema: Schema = new Schema(
     {
         commentary: {
             type: String,
@@ -25,5 +25,5 @@ const PlayerSchema: Schema = new Schema(
     }
 );
 
-const Commentary = mongoose.model<ICommentary>("Commentary", PlayerSchema);
+const Commentary = mongoose.model<ICommentary>("Commentary", CommentarySchema);
 export default Commentary;

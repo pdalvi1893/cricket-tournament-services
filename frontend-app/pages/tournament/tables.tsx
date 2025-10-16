@@ -26,14 +26,6 @@ import Layout from 'example/containers/Layout'
 const response2 = response.concat([])
 
 function Tables() {
-  /**
-   * DISCLAIMER: This code could be badly improved, but for the sake of the example
-   * and readability, all the logic for both table are here.
-   * You would be better served by dividing each table in its own
-   * component, like Table(?) and TableWithActions(?) hiding the
-   * presentation details away from the page view.
-   */
-
   // setup pages control for every table
   const [pageTable1, setPageTable1] = useState(1)
   const [pageTable2, setPageTable2] = useState(1)
@@ -98,7 +90,7 @@ function Tables() {
               <TableCell>Amount</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Date</TableCell>
-              <TableCell>Actions</TableCell>
+              {/* <TableCell>Actions</TableCell> */}
             </tr>
           </TableHeader>
           <TableBody>
@@ -122,7 +114,7 @@ function Tables() {
                 <TableCell>
                   <span className="text-sm">{new Date(user.date).toLocaleDateString()}</span>
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <div className="flex items-center space-x-4">
                     <Button layout="link" size="small" aria-label="Edit">
                       <EditIcon className="w-5 h-5" aria-hidden="true" />
@@ -131,7 +123,7 @@ function Tables() {
                       <TrashIcon className="w-5 h-5" aria-hidden="true" />
                     </Button>
                   </div>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

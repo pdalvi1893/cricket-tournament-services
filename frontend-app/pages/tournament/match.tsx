@@ -85,7 +85,7 @@ function Tables() {
             <tr>
               <TableCell>Team ID</TableCell>
               <TableCell>Team Name</TableCell>
-              <TableCell>Actions</TableCell>
+              {/* <TableCell>Actions</TableCell> */}
             </tr>
           </TableHeader>
           <TableBody>
@@ -97,7 +97,7 @@ function Tables() {
                 <TableCell>
                   <span className="text-sm font-semibold">{team.name}</span>
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <div className="flex items-center space-x-4">
                     <Button layout="link" size="small" aria-label="Edit">
                       <EditIcon className="w-5 h-5" aria-hidden="true" />
@@ -106,7 +106,7 @@ function Tables() {
                       <TrashIcon className="w-5 h-5" aria-hidden="true" />
                     </Button>
                   </div>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

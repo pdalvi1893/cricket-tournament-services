@@ -1,5 +1,4 @@
 import mongoose, { Schema, Document, Types } from "mongoose";
-import validator from "validator";
 
 export interface IPlayer extends Document {
     name: string;

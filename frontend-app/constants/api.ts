@@ -8,4 +8,5 @@ export const API_ENDPOINTS = {
   LOOKUPS: 'api/tournament/lookups',
   LOOKUP_ADD_ITEM: 'api/tournament/add-item',
   START_MATCH: 'api/tournament/start-match',
+  CHALLENGE_OUTCOME: 'api/tournament/get-challenge-outcome',
 };
