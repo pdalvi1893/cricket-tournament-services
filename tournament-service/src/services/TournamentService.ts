@@ -71,9 +71,9 @@ const generateOutcomeForChallengeTwo = async (data: any) => {
 
     const match = await Match.findById(match_id) as IMatch;
 
-    if (match.balls_faced + 1 > 10) return [];
+    if (match.balls_faced + 1 > 10) return await Commentary.find({ match: match_id });
 
-    const runScored: any = getOutcomeFromShotTiming(shot_timing);
+    const runScored = await getOutcomeFromShotTiming(shot_timing);
 
     let commentaryList = await CommentaryMaster.find({ shot_timing: shot_timing, }).populate('shot_timing');
 
@@ -93,7 +93,9 @@ const generateOutcomeForChallengeTwo = async (data: any) => {
         $inc: { balls_faced: 1 }
     });
 
-    return [];
+    const commentary = await Commentary.find({ match: match_id });
+
+    return commentary;
 };
 
 const getOutcomeForChallengeThree = async (data: any) => {
