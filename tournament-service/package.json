@@ -6,7 +6,9 @@
     "dev": "nodemon --watch src --exec ts-node src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test1": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +29,9 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
-     "@types/jsonwebtoken": "^9.0.5"
+    "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.5",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.5"
   }
 }
