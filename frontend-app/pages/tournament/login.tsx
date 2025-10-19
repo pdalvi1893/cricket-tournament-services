@@ -53,7 +53,7 @@ function LoginPage() {
         localStorage.setItem('access_token', token);
       }
       //if (!result.ok) throw new Error('Failed to login');
-      router.push('/tournament/tables');
+      router.push('/tournament/challenge-one');
     } catch (err: any) {
       console.log('Before API call'); // should print
       setError(err.message);

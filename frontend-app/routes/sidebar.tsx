@@ -24,12 +24,12 @@ export function routeIsActive(pathname: String, route: IRoute): boolean {
 }
 
 const routes: IRoute[] = [
-  {
-    path: '/example', // the url
-    icon: 'HomeIcon', // the component being exported from icons/index.js
-    name: 'Dashboard', // name that appear in Sidebar
-    exact: true,
-  },
+  // {
+  //   path: '/example', // the url
+  //   icon: 'HomeIcon', // the component being exported from icons/index.js
+  //   name: 'Dashboard', // name that appear in Sidebar
+  //   exact: true,
+  // },
   {
     icon: 'PagesIcon',
     name: 'Manage',
@@ -84,78 +84,7 @@ const routes: IRoute[] = [
       },
     ],
   },
-  // {
-  //   path: '/example/forms',
-  //   icon: 'FormsIcon',
-  //   name: 'Forms',
-  // },
-  // {
-  //   path: '/example/cards',
-  //   icon: 'CardsIcon',
-  //   name: 'Cards',
-  // },
-  // {
-  //   path: '/example/charts',
-  //   icon: 'ChartsIcon',
-  //   name: 'Charts',
-  // },
-  // {
-  //   path: '/example/buttons',
-  //   icon: 'ButtonsIcon',
-  //   name: 'Buttons',
-  // },
-  // {
-  //   path: '/example/modals',
-  //   icon: 'ModalsIcon',
-  //   name: 'Modals',
-  // },
-  // {
-  //   path: '/example/tables',
-  //   icon: 'TablesIcon',
-  //   name: 'Tables',
-  // },
-  // {
-  //   path: '/tournament/tables',
-  //   icon: 'TablesIcon',
-  //   name: 'Tournament',
-  // },
-  // {
-  //   path: '/tournament/players',
-  //   icon: 'TablesIcon',
-  //   name: 'Players',
-  // },
-  // {
-  //   path: '/tournament/teams',
-  //   icon: 'TablesIcon',
-  //   name: 'Teams',
-  // },
-  // {
-  //   icon: 'PagesIcon',
-  //   name: 'Pages',
-  //   routes: [
-  //     // submenu
-  //     {
-  //       path: '/tournament/login',
-  //       name: 'Login',
-  //     },
-  //     {
-  //       path: '/tournament/create-account',
-  //       name: 'Create account',
-  //     },
-  //     {
-  //       path: '/example/forgot-password',
-  //       name: 'Forgot password',
-  //     },
-  //     {
-  //       path: '/example/404',
-  //       name: '404',
-  //     },
-  //     {
-  //       path: '/example/blank',
-  //       name: 'Blank',
-  //     },
-  //   ],
-  // },
+  
 ]
 
 export type { IRoute }

@@ -129,7 +129,7 @@ function Tables() {
   return (
     <Layout>
       <PageTitleWithButton buttonText="Add New" onButtonClick={() => setIsModalOpen(true)}>
-        Challenge #1  {match ? `🏏 ${match.name}` : 'Starting match...'}
+        Challenge #2  {match ? `🏏 ${match.name}` : 'Starting match...'}
       </PageTitleWithButton>
 
       <GenericFormModal

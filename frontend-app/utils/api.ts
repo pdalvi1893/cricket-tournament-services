@@ -9,7 +9,7 @@ export async function api<T = any>(
   { method = 'GET', body, token, headers = {}, ...options }: ApiOptions = {}
 ): Promise<T> {
   try {
-    const apiUrl = `http://localhost:8080/${url}`;
+    const apiUrl = `http://localhost:85/${url}`;
     const token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
     const res = await fetch(apiUrl, {
       method,

@@ -4,7 +4,7 @@ import userRouter from "./routes/authRoutes";
 import { errorConverter, errorHandler } from "./middleware";
 import { connectDB } from "./database";
 import config from "./config/config";
-import { rabbitMQService } from "./services/RabbitMQService";
+//import { rabbitMQService } from "./services/RabbitMQService";
 import cors, { CorsOptions } from 'cors';
 
 const app: Express = express();
@@ -30,16 +30,16 @@ server = app.listen(config.PORT, () => {
     console.log(`Server is running on port ${config.PORT}`);
 });
 
-const initializeRabbitMQClient = async () => {
-    try {
-        await rabbitMQService.init();
-        console.log("RabbitMQ client initialized and listening for messages.");
-    } catch (err) {
-        console.error("Failed to initialize RabbitMQ client:", err);
-    }
-};
+// const initializeRabbitMQClient = async () => {
+//     try {
+//         await rabbitMQService.init();
+//         console.log("RabbitMQ client initialized and listening for messages.");
+//     } catch (err) {
+//         console.error("Failed to initialize RabbitMQ client:", err);
+//     }
+// };
 
-initializeRabbitMQClient();
+//initializeRabbitMQClient();
 
 const exitHandler = () => {
     if (server) {
